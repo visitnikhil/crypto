@@ -1,0 +1,58 @@
+def columnar_transposition_encrypt(plain_text, key):
+    num_columns = len(key)
+    num_rows = -(-len(plain_text) // num_columns)
+    matrix = [['' for _ in range(num_columns)] for _ in range(num_rows)]
+    
+    for i, char in enumerate(plain_text):
+        row = i // num_columns
+        col = i % num_columns
+        matrix[row][col] = char
+    
+    encrypted_text = ''
+    for col_index in key:
+        encrypted_text += ''.join(row[col_index] for row in matrix)
+    
+    return encrypted_text
+
+def columnar_transposition_decrypt(encrypted_text, key):
+    num_columns = len(key)
+    num_rows = -(-len(encrypted_text) // num_columns)
+    matrix = [['' for _ in range(num_columns)] for _ in range(num_rows)]
+    
+    encrypted_index = 0
+    for col_index in key:
+        for row_index in range(num_rows):
+            if encrypted_index < len(encrypted_text):
+                matrix[row_index][col_index] = encrypted_text[encrypted_index]
+                encrypted_index += 1
+    
+    decrypted_text = ''
+    for row in matrix:
+        decrypted_text += ''.join(row)
+    
+    return decrypted_text
+
+def main():
+    print("Welcome to the Columnar Transposition Cipher Encryption/Decryption Tool!")
+    while True:
+        choice = input("Choose an option:\n1. Encrypt\n2. Decrypt\n3. Quit\nEnter your choice: ")
+        if choice == "1":
+            plain_text = input("Enter the plaintext message: ")
+            key = input("Enter the key (permutation order) as numbers separated by space (e.g., '2 1 3' for a key of length 3): ")
+            key = list(map(int, key.split()))
+            encrypted_text = columnar_transposition_encrypt(plain_text, key)
+            print("Encrypted message:", encrypted_text)
+        elif choice == "2":
+            encrypted_text = input("Enter the encrypted message: ")
+            key = input("Enter the key (permutation order) as numbers separated by space (e.g., '2 1 3' for a key of length 3): ")
+            key = list(map(int, key.split()))
+            decrypted_text = columnar_transposition_decrypt(encrypted_text, key)
+            print("Decrypted message:", decrypted_text)
+        elif choice == "3":
+            print("Thank you for using the Columnar Transposition Cipher Encryption/Decryption Tool!")
+            break
+        else:
+            print("Invalid choice. Please enter a valid option.")
+
+if __name__ == "__main__":
+    main()

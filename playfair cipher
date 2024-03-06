@@ -1,0 +1,28 @@
+def generate_playfair_matrix(keyword):
+    # Remove duplicate letters and convert to uppercase
+    keyword = "".join(sorted(set(keyword.upper()), key=keyword.index))
+    alphabet = "ABCDEFGHIKLMNOPQRSTUVWXYZ"  # J is typically omitted in Playfair cipher
+
+    # Initialize the key matrix with the keyword
+    key_matrix = [list(keyword)]
+
+    # Fill the matrix with the remaining letters of the alphabet
+    for char in alphabet:
+        if char not in keyword:
+            key_matrix[-1].append(char)
+            if len(key_matrix[-1]) == 5:
+                key_matrix.append([])
+
+    # Convert the matrix to a single string
+    key_matrix_string = ""
+    for row in key_matrix:
+        key_matrix_string += "".join(row)
+
+    return key_matrix_string
+
+# Example usage:
+keyword = "KEYWORD"
+playfair_matrix = generate_playfair_matrix(keyword)
+print("Playfair matrix:")
+for i in range(0, len(playfair_matrix), 5):
+    print(playfair_matrix[i:i+5])

@@ -1,0 +1,20 @@
+def monoalphabetic_substitution_encrypt(plain_text, substitution_key):
+    encrypted_text = ""
+    substitution_key = substitution_key.lower()
+    for char in plain_text:
+        if char.isalpha():
+            index = ord(char.lower()) - ord('a')
+            if char.islower():
+                encrypted_char = substitution_key[index]
+            else:
+                encrypted_char = substitution_key[index].upper()
+        else:
+            encrypted_char = char
+        encrypted_text += encrypted_char
+    return encrypted_text
+
+# Example usage:
+plain_text = "HELLO"
+substitution_key = "zyxwvutsrqponmlkjihgfedcba"  # Example key
+encrypted_text = monoalphabetic_substitution_encrypt(plain_text, substitution_key)
+print("Encrypted text:", encrypted_text)

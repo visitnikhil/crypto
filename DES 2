@@ -1,0 +1,34 @@
+from Crypto.Cipher import DES
+from Crypto.Random import get_random_bytes
+
+def des_encrypt(plain_text, key, mode, iv=None):
+    cipher = DES.new(key, mode, iv)
+    return cipher.encrypt(plain_text)
+
+def des_decrypt(encrypted_text, key, mode, iv=None):
+    cipher = DES.new(key, mode, iv)
+    return cipher.decrypt(encrypted_text)
+
+def main():
+    key = get_random_bytes(8)
+    plain_text = b"Hello World"
+
+    # ECB Mode
+    encrypted_text_ecb = des_encrypt(plain_text, key, DES.MODE_ECB)
+    decrypted_text_ecb = des_decrypt(encrypted_text_ecb, key, DES.MODE_ECB)
+    print("ECB Mode:")
+    print("Plain text:", plain_text)
+    print("Encrypted text:", encrypted_text_ecb)
+    print("Decrypted text:", decrypted_text_ecb)
+
+    # CBC Mode
+    iv = get_random_bytes(8)
+    encrypted_text_cbc = des_encrypt(plain_text, key, DES.MODE_CBC, iv)
+    decrypted_text_cbc = des_decrypt(encrypted_text_cbc, key, DES.MODE_CBC, iv)
+    print("\nCBC Mode:")
+    print("Plain text:", plain_text)
+    print("Encrypted text:", encrypted_text_cbc)
+    print("Decrypted text:", decrypted_text_cbc)
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,23 @@
+def caesar_cipher_encrypt(plain_text, key):
+    encrypted_text = ""
+
+    for char in plain_text:
+        if char.isalpha():
+            # Shift the character by the key value
+            if char.islower():
+                encrypted_char = chr((ord(char) - ord('a') + key) % 26 + ord('a'))
+            else:
+                encrypted_char = chr((ord(char) - ord('A') + key) % 26 + ord('A'))
+        else:
+            # If the character is not a letter, keep it unchanged
+            encrypted_char = char
+        
+        encrypted_text += encrypted_char
+
+    return encrypted_text
+
+# Example usage:
+plain_text = "HELLO"
+key = 3
+encrypted_text = caesar_cipher_encrypt(plain_text, key)
+print("Encrypted text:", encrypted_text)

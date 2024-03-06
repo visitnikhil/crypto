@@ -1,0 +1,71 @@
+def rail_fence_encrypt(plain_text, num_rails):
+    rails = [''] * num_rails
+    rail = 0
+    direction = 1
+
+    for char in plain_text:
+        rails[rail] += char
+        if rail == 0:
+            direction = 1
+        elif rail == num_rails - 1:
+            direction = -1
+        rail += direction
+
+    encrypted_text = ''.join(rails)
+    return encrypted_text
+
+def rail_fence_decrypt(encrypted_text, num_rails):
+    rails = [''] * num_rails
+    rail = 0
+    direction = 1
+    index = 0
+
+    for i in range(len(encrypted_text)):
+        rails[rail] += '*'
+        if rail == 0:
+            direction = 1
+        elif rail == num_rails - 1:
+            direction = -1
+        rail += direction
+
+    for i in range(num_rails):
+        for j in range(len(encrypted_text)):
+            if rails[i][j] == '*' and index < len(encrypted_text):
+                rails[i] = rails[i][:j] + encrypted_text[index] + rails[i][j+1:]
+                index += 1
+
+    rail = 0
+    direction = 1
+    decrypted_text = ''
+    for i in range(len(encrypted_text)):
+        decrypted_text += rails[rail][i]
+        if rail == 0:
+            direction = 1
+        elif rail == num_rails - 1:
+            direction = -1
+        rail += direction
+
+    return decrypted_text
+
+def main():
+    print("Welcome to the Rail Fence Cipher Encryption/Decryption Tool!")
+    while True:
+        choice = input("Choose an option:\n1. Encrypt\n2. Decrypt\n3. Quit\nEnter your choice: ")
+        if choice == "1":
+            plain_text = input("Enter the plaintext message: ")
+            num_rails = int(input("Enter the number of rails for encryption: "))
+            encrypted_text = rail_fence_encrypt(plain_text, num_rails)
+            print("Encrypted message:", encrypted_text)
+        elif choice == "2":
+            encrypted_text = input("Enter the encrypted message: ")
+            num_rails = int(input("Enter the number of rails for decryption: "))
+            decrypted_text = rail_fence_decrypt(encrypted_text, num_rails)
+            print("Decrypted message:", decrypted_text)
+        elif choice == "3":
+            print("Thank you for using the Rail Fence Cipher Encryption/Decryption Tool!")
+            break
+        else:
+            print("Invalid choice. Please enter a valid option.")
+
+if __name__ == "__main__":
+    main()
